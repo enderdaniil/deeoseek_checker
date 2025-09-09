@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Проверка на антиплагиат</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Проверка академических работ на антиплагиат</h1>
+        
+        <div class="upload-section">
+            <h2>Загрузите PDF файл</h2>
+            <form id="uploadForm" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="fileInput">Выберите PDF файл:</label>
+                    <input type="file" id="fileInput" accept=".pdf" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Параметры обработки:</label>
+                    <div class="skip-pages">
+                        <div>
+                            <label for="skipFirstPages">Пропустить первые страницы (титульный лист):</label>
+                            <input type="number" id="skipFirstPages" value="1" min="0">
+                        </div>
+                        <div>
+                            <label for="skipLastPages">Пропустить последние страницы (библиография):</label>
+                            <input type="number" id="skipLastPages" value="0" min="0">
+                        </div>
+                    </div>
+                </div>
+                
+                <button type="submit" id="uploadBtn">Загрузить файл</button>
+            </form>
+            <div id="uploadStatus"></div>
+        </div>
+        
+        <div class="analysis-section" id="analysisSection">
+            <h2>Анализ текста</h2>
+            <button id="analyzeBtn" disabled>Начать обработку</button>
+            <div id="analysisProgress"></div>
+            
+            <div class="results-container">
+                <div class="tabs">
+                    <button class="tab-button active" data-tab="step0">Шаг 0</button>
+                    <button class="tab-button" data-tab="step1">Шаг 1</button>
+                    <button class="tab-button" data-tab="step2">Шаг 2</button>
+                    <button class="tab-button" data-tab="step3">Шаг 3</button>
+                    <button class="tab-button" data-tab="step4">Шаг 4</button>
+                    <button class="tab-button" data-tab="step5">Шаг 5</button>
+                    <button class="tab-button" data-tab="step6">Шаг 6</button>
+                </div>
+                
+                <div class="tab-content">
+                    <div id="step0" class="tab-pane active">
+                        <p>Здесь будет отображен результат шага 0</p>
+                    </div>
+                    <div id="step1" class="tab-pane">
+                        <p>Здесь будет отображен результат шага 1</p>
+                    </div>
+                    <div id="step2" class="tab-pane">
+                        <p>Здесь будет отображен результат шага 2</p>
+                    </div>
+                    <div id="step3" class="tab-pane">
+                        <p>Здесь будет отображен результат шага 3</p>
+                    </div>
+                    <div id="step4" class="tab-pane">
+                        <p>Здесь будет отображен результат шага 4</p>
+                    </div>
+                    <div id="step5" class="tab-pane">
+                        <p>Здесь будет отображен результат шага 5</p>
+                    </div>
+                    <div id="step6" class="tab-pane">
+                        <p>Здесь будет отображен результат шага 6</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
