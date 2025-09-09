@@ -193,25 +193,89 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!text) return '<p>Нет данных для отображения</p>';
         
         try {
-            // Заменяем переносы строк на HTML-теги
-            let formatted = text
+            // Сначала обрабатываем таблицы
+            let formatted = convertTablesToHTML(text);
+            
+            // Затем обрабатываем остальные элементы
+            formatted = formatted
                 .replace(/\n/g, '<br>')
                 .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Жирный текст
                 .replace(/\*(.*?)\*/g, '<em>$1</em>') // Курсив
                 .replace(/## (.*?)<br>/g, '<h3>$1</h3>') // Заголовки
+                .replace(/### (.*?)<br>/g, '<h4>$1</h4>') // Подзаголовки
                 .replace(/- (.*?)<br>/g, '<li>$1</li>') // Списки
                 .replace(/<li>(.*?)<\/li>/g, '<ul><li>$1</li></ul>') // Обертывание списков
                 .replace(/<\/ul><ul>/g, ''); // Удаление лишних оберток
-            
-            // Обрабатываем таблицы
-            formatted = formatted.replace(/\|\s*(.*?)\s*\|\s*(.*?)\s*\|\s*(.*?)\s*\|\s*(.*?)\s*\|\s*(.*?)\s*\|/g, 
-                '<table><tr><td>$1</td><td>$2</td><td>$3</td><td>$4</td><td>$5</td></tr></table>');
             
             return formatted;
         } catch (error) {
             console.error('Ошибка при форматировании текста:', error);
             return `<pre>${text}</pre>`;
         }
+    }
+    
+    // Функция для преобразования текстовых таблиц в HTML-таблицы
+    function convertTablesToHTML(text) {
+        // Разделяем текст на строки
+        const lines = text.split('\n');
+        let inTable = false;
+        let tableHtml = '';
+        let result = '';
+        
+        for (const line of lines) {
+            // Проверяем, является ли строка частью таблицы
+            const isTableRow = line.trim().startsWith('|') && line.trim().endsWith('|');
+            const isTableSeparator = line.includes('|--') || line.includes('|:-') || line.includes('-:|');
+            
+            if (isTableRow || isTableSeparator) {
+                if (!inTable) {
+                    // Начало таблицы
+                    inTable = true;
+                    tableHtml = '<table class="ai-table">';
+                }
+                
+                if (isTableSeparator) {
+                    // Пропускаем строки-разделители в Markdown
+                    continue;
+                }
+                
+                // Обрабатываем строку таблицы
+                const cells = line.split('|').filter(cell => cell.trim() !== '');
+                tableHtml += '<tr>';
+                
+                for (const cell of cells) {
+                    const cellContent = cell.trim();
+                    // Определяем, является ли это заголовком (первая строка)
+                    const isHeader = tableHtml.includes('<tr>') && !tableHtml.includes('</tr>');
+                    
+                    if (isHeader) {
+                        tableHtml += `<th>${cellContent}</th>`;
+                    } else {
+                        tableHtml += `<td>${cellContent}</td>`;
+                    }
+                }
+                
+                tableHtml += '</tr>';
+            } else {
+                if (inTable) {
+                    // Завершаем таблицу
+                    inTable = false;
+                    tableHtml += '</table>';
+                    result += tableHtml;
+                    tableHtml = '';
+                }
+                // Добавляем обычный текст
+                result += line + '\n';
+            }
+        }
+        
+        // Если текст закончился, но таблица не закрыта
+        if (inTable) {
+            tableHtml += '</table>';
+            result += tableHtml;
+        }
+        
+        return result;
     }
     
     // Функция для отображения сообщений

@@ -188,3 +188,64 @@ button:disabled {
         margin-bottom: 5px;
     }
 }
+
+/* Стили для таблиц */
+.ai-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    font-size: 14px;
+    box-shadow: 0 2px 3px rgba(0,0,0,0.1);
+}
+
+.ai-table th,
+.ai-table td {
+    padding: 10px 12px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+.ai-table th {
+    background-color: #3498db;
+    color: white;
+    font-weight: bold;
+}
+
+.ai-table tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+.ai-table tr:hover {
+    background-color: #f1f3f5;
+}
+
+/* Стили для лучшего отображения результатов */
+.step-result {
+    line-height: 1.6;
+}
+
+.step-result ul, .step-result ol {
+    margin: 10px 0;
+    padding-left: 20px;
+}
+
+.step-result li {
+    margin-bottom: 5px;
+}
+
+.step-result h3, .step-result h4 {
+    color: #2c3e50;
+    margin: 15px 0 10px 0;
+}
+
+.step-result strong {
+    color: #2c3e50;
+}
+
+.step-result pre {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    border-left: 4px solid #3498db;
+}
